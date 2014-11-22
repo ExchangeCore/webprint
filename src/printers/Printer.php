@@ -31,9 +31,12 @@ class Printer
 
     protected $command = [];
     protected $dpi = 203;
-    protected $printWidthDpi = 0;
-    protected $paperWidthDpi = 0;
-    protected $paperLengthDpi = 0;
+    protected $printWidthDpi = 832;
+    protected $paperWidthDpi = 609;
+
+    protected $currentPositionHorizontal = 1;
+    protected $currentPositionVertical = 1;
+    protected $currentFontSize = 0;
 
     /** @var resource $socket */
     protected $socket;
@@ -69,7 +72,7 @@ class Printer
         if ($printed == strlen($this->getCommandString()) && $resetCommandQueue) {
             $this->resetStack();
         }
-        return ($printed === strlen($this->getCommandString()))?($this):(false);
+        return ($printed === strlen($this->getCommandString())) ? ($this) : (false);
     }
 
     /**
@@ -78,7 +81,7 @@ class Printer
      */
     public function disconnect()
     {
-        if($this->socket) {
+        if ($this->socket) {
             return fclose($this->socket);
         } else {
             return true; //we weren't connected anyway
@@ -168,51 +171,114 @@ class Printer
     {
         if ($startUnit === self::UNIT_INCHES) {
             if ($resultUnit === self::UNIT_INCHES) {
-                return round($measurement, $this->unitsOfMeasure[self::UNIT_INCHES]['precision']);
+                return round(
+                    $measurement,
+                    $this->unitsOfMeasure[self::UNIT_INCHES]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_MILLIMETERS) {
-                return round($measurement * 25.4, $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']);
+                return round(
+                    $measurement * 25.4,
+                    $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPI) {
-                return round($this->dpi * $measurement, $this->unitsOfMeasure[self::UNIT_DPI]['precision']);
+                return round(
+                    $this->dpi * $measurement,
+                    $this->unitsOfMeasure[self::UNIT_DPI]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPCM) {
-                return round($this->dpi * $measurement / 0.393701, $this->unitsOfMeasure[self::UNIT_DPCM]['precision']);
+                return round(
+                    $this->dpi * $measurement * 0.393701,
+                    $this->unitsOfMeasure[self::UNIT_DPCM]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPPT) {
-                return round($this->dpi * $measurement * self::INCHES_PER_POINT, $this->unitsOfMeasure[self::UNIT_DPPT]['precision']);
+                return round(
+                    $this->dpi * $measurement * self::INCHES_PER_POINT,
+                    $this->unitsOfMeasure[self::UNIT_DPPT]['precision']
+                );
             }
         } elseif ($startUnit === self::UNIT_MILLIMETERS) {
             if ($resultUnit === self::UNIT_INCHES) {
-                return round($measurement / 25.4, $this->unitsOfMeasure[self::UNIT_INCHES]['precision']);
+                return round(
+                    $measurement * 0.0393701,
+                    $this->unitsOfMeasure[self::UNIT_INCHES]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_MILLIMETERS) {
-                return round($measurement, $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']);
+                return round(
+                    $measurement,
+                    $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPI) {
-                return round($this->dpi * $measurement / 0.0393701, $this->unitsOfMeasure[self::UNIT_DPI]['precision']);
+                return round(
+                    $this->dpi * $measurement * 0.0393701,
+                    $this->unitsOfMeasure[self::UNIT_DPI]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPCM) {
-                return round($this->dpi * $measurement / 10, $this->unitsOfMeasure[self::UNIT_DPCM]['precision']);
+                return round(
+                    $this->dpi * $measurement / 10,
+                    $this->unitsOfMeasure[self::UNIT_DPCM]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPPT) {
-                return $this->convertUnitOfMeasure($measurement / 25.4, self::UNIT_INCHES, self::UNIT_DPPT);
+                return $this->convertUnitOfMeasure(
+                    $measurement / 25.4,
+                    self::UNIT_INCHES,
+                    self::UNIT_DPPT
+                );
             }
         } elseif ($startUnit === self::UNIT_DPI) {
             if ($resultUnit === self::UNIT_INCHES) {
-                return round($measurement / $this->dpi, $this->unitsOfMeasure[self::UNIT_INCHES]['precision']);
+                return round(
+                    $measurement / $this->dpi,
+                    $this->unitsOfMeasure[self::UNIT_INCHES]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_MILLIMETERS) {
-                return round($measurement / $this->dpi * 25.4 , $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']);
+                return round(
+                    $measurement / $this->dpi * 25.4,
+                    $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPI) {
-                return round($measurement, $this->unitsOfMeasure[self::UNIT_DPI]['precision']);
+                return round(
+                    $measurement,
+                    $this->unitsOfMeasure[self::UNIT_DPI]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPCM) {
-                return round($measurement / 0.393701, $this->unitsOfMeasure[self::UNIT_DPCM]['precision']);
+                return round(
+                    $measurement * 0.393701,
+                    $this->unitsOfMeasure[self::UNIT_DPCM]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPPT) {
-                return $this->convertUnitOfMeasure($measurement / $this->dpi, self::UNIT_INCHES, self::UNIT_DPPT);
+                return $this->convertUnitOfMeasure(
+                    $measurement / $this->dpi,
+                    self::UNIT_INCHES,
+                    self::UNIT_DPPT
+                );
             }
         } elseif ($startUnit === self::UNIT_DPCM) {
             if ($resultUnit === self::UNIT_INCHES) {
-                return round($measurement / $this->dpi * 2.54, $this->unitsOfMeasure[self::UNIT_INCHES]['precision']);
+                return round(
+                    $measurement / $this->dpi * 2.54,
+                    $this->unitsOfMeasure[self::UNIT_INCHES]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_MILLIMETERS) {
-                return round($measurement / $this->dpi * 10 , $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']);
+                return round(
+                    $measurement / $this->dpi * 10,
+                    $this->unitsOfMeasure[self::UNIT_MILLIMETERS]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPI * 2.54) {
-                return round($measurement, $this->unitsOfMeasure[self::UNIT_DPI]['precision']);
+                return round(
+                    $measurement,
+                    $this->unitsOfMeasure[self::UNIT_DPI]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPCM) {
-                return round($measurement, $this->unitsOfMeasure[self::UNIT_DPCM]['precision']);
+                return round(
+                    $measurement,
+                    $this->unitsOfMeasure[self::UNIT_DPCM]['precision']
+                );
             } elseif ($resultUnit === self::UNIT_DPPT) {
-                return $this->convertUnitOfMeasure($measurement / $this->dpi * 2.54, self::UNIT_INCHES, self::UNIT_DPPT);
+                return $this->convertUnitOfMeasure(
+                    $measurement / $this->dpi * 2.54,
+                    self::UNIT_INCHES,
+                    self::UNIT_DPPT
+                );
             }
         }
         return $measurement;

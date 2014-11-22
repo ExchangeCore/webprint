@@ -15,7 +15,8 @@ interface PrinterInterface
     public function setBaseReference();
     public function startPrint();
     public function endPrint();
-    public function setPosition($horizontal, $vertical);
+    public function setCopies($amount);
+    public function setPosition($horizontal, $vertical, $unitOfMeasure);
 
     /**
      * Sets the font size to the closest available font height to the given font point value
