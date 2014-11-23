@@ -24,6 +24,10 @@ interface PrinterInterface
      * @return $this
      */
     public function setFontSize($size);
-    public function text($string);
+    public function outputText($string);
+
+    public function setBarcodeNarrowWidth($measurement, $unitOfMeasure);
+    public function setBarcodeHeight($measurement, $unitOfMeasure);
+    public function outputCode39($value);
 
 } 

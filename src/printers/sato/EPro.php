@@ -27,7 +27,7 @@ class EPro extends Printer implements PrinterInterface
         return $this;
     }
 
-    public function text($string)
+    public function outputText($string)
     {
         $this->pushCommand(static::ESC . 'H' . str_pad($this->currentPositionHorizontal, 4, '0', STR_PAD_LEFT));
         $this->pushCommand(static::ESC . 'V' . str_pad($this->currentPositionVertical, 4, '0', STR_PAD_LEFT));
@@ -72,6 +72,17 @@ class EPro extends Printer implements PrinterInterface
     public function setCopies($amount)
     {
         $this->pushCommand(static::ESC . 'Q' . (int) $amount);
+        return $this;
+    }
+
+    public function outputCode39($value)
+    {
+        $this->pushCommand(static::ESC . 'H' . str_pad($this->currentPositionHorizontal, 4, '0', STR_PAD_LEFT));
+        $this->pushCommand(static::ESC . 'V' . str_pad($this->currentPositionVertical, 4, '0', STR_PAD_LEFT));
+        $narrowWidth = str_pad($this->barcodeNarrowWidth, 2 , '0', STR_PAD_LEFT);
+        $height = str_pad($this->barcodeHeight, 3, '0', STR_PAD_LEFT);
+        $this->pushCommand(static::ESC . 'B1' . $narrowWidth . $height . $value);
+
         return $this;
     }
 }

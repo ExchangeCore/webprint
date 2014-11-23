@@ -37,6 +37,8 @@ class Printer
     protected $currentPositionHorizontal = 1;
     protected $currentPositionVertical = 1;
     protected $currentFontSize = 0;
+    protected $barcodeNarrowWidth = 1;
+    protected $barcodeHeight = 39;
 
     /** @var resource $socket */
     protected $socket;
@@ -282,5 +284,17 @@ class Printer
             }
         }
         return $measurement;
+    }
+
+    public function setBarcodeNarrowWidth($measurement, $unitOfMeasure = self::UNIT_DPI)
+    {
+        $this->barcodeNarrowWidth = $this->convertUnitOfMeasure($measurement, $unitOfMeasure, self::UNIT_DPI);
+        return $this;
+    }
+
+    public function setBarcodeHeight($measurement, $unitOfMeasure = self::UNIT_DPI)
+    {
+        $this->barcodeHeight = $this->convertUnitOfMeasure($measurement, $unitOfMeasure, self::UNIT_DPI);
+        return $this;
     }
 } 
