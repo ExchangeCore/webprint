@@ -1,9 +1,9 @@
 <?php
 namespace exchangecore\webprint\src\printers\sato;
 
-use exchangecore\webprint\src\printers\PrinterInterface;
+use exchangecore\webprint\src\printers\interfaces\NetworkPrinterInterface;
 
-class M8400rve extends EPro implements PrinterInterface
+class M8400rve extends EPro implements NetworkPrinterInterface
 {
 
     public function cutLabel()
