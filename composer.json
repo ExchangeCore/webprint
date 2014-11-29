@@ -18,7 +18,8 @@
 		"source": "https://github.com/exchangecore/webprint"
 	},
 	"require": {
-		"php": ">=5.4.0"
+		"php": ">=5.4.0",
+        "ext-gd": "*"
 	},
 	"autoload": {
 		"psr-4": {
