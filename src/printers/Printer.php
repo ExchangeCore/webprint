@@ -72,7 +72,6 @@ class Printer
     }
 
     /** Command Storage and processing */
-
     public function processCommandStack($resetCommandQueue)
     {
         if($this->beforePrint()) {
@@ -136,18 +135,6 @@ class Printer
     public function setPaperWidth($measurement, $unitOfMeasure = self::UNIT_INCHES)
     {
         $this->paperWidth = $this->convertUnitOfMeasure($measurement, $unitOfMeasure, self::UNIT_INCHES);
-        return $this;
-    }
-
-    public function setBarcodeNarrowWidth($measurement, $unitOfMeasure = self::UNIT_INCHES)
-    {
-        $this->barcodeNarrowWidth = $this->convertUnitOfMeasure($measurement, $unitOfMeasure, self::UNIT_INCHES);
-        return $this;
-    }
-
-    public function setBarcodeHeight($measurement, $unitOfMeasure = self::UNIT_INCHES)
-    {
-        $this->barcodeHeight = $this->convertUnitOfMeasure($measurement, $unitOfMeasure, self::UNIT_INCHES);
         return $this;
     }
 

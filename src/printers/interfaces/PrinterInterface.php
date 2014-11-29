@@ -58,7 +58,7 @@ interface PrinterInterface
     /**
      * Sends the command output to the appropriate location, this should not be modified instead modify the onProcessCommandStack function
      * @param bool $reset When true, the command stack will be cleared after processing, when false the stack will remain
-     * @return $this|bool Returns $this if the stack was processed successfully, returns false if there was an error
+     * @return bool Returns true if the stack was processed successfully, returns false if there was an error
      */
     public function processCommandStack($reset);
 
