@@ -33,7 +33,8 @@ $printer
 ```
 <?php
 $printer = new exchangecore\webprint\src\printers\sato\M8400rve();
-$printer
+$printer                       
+    ->setPaperWidth(4, $printer::UNIT_INCHES)
     ->setBaseReference(0.25, 0.25, $printer::UNIT_INCHES)
     ->setFontSize(20)
     ->outputText('HELLO WORLD')
