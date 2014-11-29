@@ -1,0 +1,29 @@
+{
+	"name": "exchangecore/webprint",
+	"description": "A library for printing directly to printers from your web application ",
+	"keywords": ["print", "php", "barcode"],
+	"homepage": "https://github.com/exchangecore/webprint",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Joe Meyer",
+			"email": "joemeyer@exchangecore.com",
+			"homepage": "https://www.exchangecore.com/",
+			"role": "Creator"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/exchangecore/webprint/issues",
+		"source": "https://github.com/exchangecore/webprint"
+	},
+	"require": {
+		"php": ">=5.4.0",
+        "ext-gd": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"exchangecore\\webprint\\": ""
+		}
+	}
+}
