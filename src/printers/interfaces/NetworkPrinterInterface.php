@@ -3,6 +3,7 @@ namespace exchangecore\webprint\src\printers\interfaces;
 
 interface NetworkPrinterInterface extends PrinterInterface
 {
+
     /**
      * Creates a connection to the network printer
      * @param string $host

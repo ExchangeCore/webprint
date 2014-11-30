@@ -94,4 +94,19 @@ class EPro extends NetworkPrinter implements NetworkPrinterInterface
 
         return $this;
     }
+
+    public function setRotation($clockwiseRotation)
+    {
+        if($clockwiseRotation >= 270) {
+            $rotate = 1;
+        } elseif ($clockwiseRotation >= 180) {
+            $rotate = 2;
+        } elseif ($clockwiseRotation >= 90) {
+            $rotate = 3;
+        } else {
+            $rotate = 0;
+        }
+        $this->pushCommand(static::ESC . '%' . $rotate);
+        return $this;
+    }
 }

@@ -13,6 +13,8 @@ class WebPrinter extends Printer implements PrinterInterface
         'font-family' => 'Arial, Helvetica, sans-serif;'
     ];
 
+    protected $elementStyle = [];
+
     protected $textStyle = [
         'position' => 'absolute',
         'margin-top' => '0',
@@ -78,7 +80,8 @@ class WebPrinter extends Printer implements PrinterInterface
 
     public function outputText($string)
     {
-        $this->pushCommand('<span style="' . $this->getStyleString($this->textStyle) . '">' . $string .'</span>');
+        $style = $this->getStyleString($this->textStyle) . $this->getStyleString($this->elementStyle);
+        $this->pushCommand('<span style="' . $style . '">' . $string .'</span>');
         return $this;
     }
 
@@ -103,9 +106,21 @@ class WebPrinter extends Printer implements PrinterInterface
     {
 
         $barcode = new code39();
-        $barcode->setBarWidth($narrowWidth * 1.5);
+        $barcode->setBarWidth($narrowWidth);
         $style = $this->getStyleString($this->textStyle) . 'height: ' . $this->convertUnitOfMeasure($height, $unitOfMeasure, self::UNIT_INCHES) . 'in;';
-        $this->pushCommand('<img  style="' . $style . '" src="data:image/png;base64,' . $barcode->draw($value) . '"/>');
+        $style .= $this->getStyleString($this->elementStyle);
+        $this->pushCommand('<img style="' . $style . '" src="data:image/png;base64,' . $barcode->draw($value) . '"/>');
+        return $this;
+    }
+
+    public function setRotation($clockwiseRotation)
+    {
+        $this->elementStyle['-webkit-transform'] = 'rotate(' . $clockwiseRotation .'deg)';
+        $this->elementStyle['-moz-transform'] = 'rotate(' . $clockwiseRotation .'deg)';
+        $this->elementStyle['-o-transform'] = 'rotate(' . $clockwiseRotation .'deg)';
+        $this->elementStyle['-ms-transform'] = 'rotate(' . $clockwiseRotation .'deg)';
+        $this->elementStyle['transform'] = 'rotate(' . $clockwiseRotation .'deg)';
+        $this->elementStyle['transform-origin'] = 'left top';
         return $this;
     }
 } 

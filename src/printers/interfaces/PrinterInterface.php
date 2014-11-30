@@ -74,6 +74,13 @@ interface PrinterInterface
      */
     public function resetStack();
 
-
+    /**
+     * Sets the rotation of proceeding output in degrees, pivot point should be the upper left corner of the output
+     *
+     * Note: If the printer cannot support rotating to the specified degrees, it should rotate to it's nearest degree floored
+     * @param int $degreesClockwise
+     * @return $this
+     */
+    public function setRotation($degreesClockwise);
 
 } 
