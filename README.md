@@ -1,6 +1,7 @@
 ## Purpose
 
-The purpose of this library is to allow a common PHP api which will allow printing directly to print devices. The library uses psr-4 namespacing.
+The purpose of this library is to allow a common PHP api which will allow printing directly to print devices or outputting
+the same content to other interfaces, such as your web browser. 
 
 ## Supported Printers
 
@@ -9,8 +10,11 @@ The purpose of this library is to allow a common PHP api which will allow printi
 
 ## Features
               
-* text output
-* code 39 barcode
+* Text Output
+    * Font Size 
+* Code 39 Barcode
+    * Barcode Height
+    * Bar Widths
 
 ## Sample Usage
 

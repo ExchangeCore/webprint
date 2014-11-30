@@ -1,6 +1,6 @@
 {
 	"name": "exchangecore/webprint",
-	"description": "A library for printing directly to printers from your web application ",
+	"description": "A PHP library with the goal of printing directly to network printers or outputting the same content to a web page.",
 	"keywords": ["print", "php", "barcode"],
 	"homepage": "https://github.com/exchangecore/webprint",
 	"type": "library",

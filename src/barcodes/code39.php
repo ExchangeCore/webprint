@@ -13,9 +13,6 @@ class code39
 
     const WIDE_BAR_RATIO = 3;
 
-    const TEXT_POS_NONE = 'none';
-    const TEXT_POS_BELOW = 'below';
-
     /**
      * Character to encoding mapping
      * @var array $codes
@@ -202,8 +199,6 @@ class code39
     protected $barWidth = 3;
     protected $barcodeColor = array(0, 0, 0);
     protected $barcodeHeight = 80;
-    protected $barcodeTextPosition = self::TEXT_POS_NONE;
-    protected $barcodeTextSize = 8;
 
     /**
      * Width of thin bars in barcode
@@ -221,24 +216,6 @@ class code39
     public function setBarcodeHeight($barcodeHeight)
     {
         $this->barcodeHeight = $barcodeHeight;
-    }
-
-    /**
-     * Determines the position of the barcode text, use constants self::TEXT_POS_*
-     * @param string $barcodeTextPosition
-     */
-    public function setBarcodeTextPosition($barcodeTextPosition)
-    {
-        $this->barcodeTextPosition = $barcodeTextPosition;
-    }
-
-    /**
-     * Barcode text size
-     * @param int $barcodeTextSize
-     */
-    public function setBarcodeTextSize($barcodeTextSize)
-    {
-        $this->barcodeTextSize = $barcodeTextSize;
     }
 
     /**
@@ -293,30 +270,6 @@ class code39
         $imageString = base64_encode(ob_get_contents());
         imagedestroy($img);
         ob_end_clean();
-
-        // check if using barcode text
-       /* if($this->barcode_text) {
-            // set barcode text box
-            $barcode_text_h = 10 + $this->barcode_padding;
-            imagefilledrectangle($img, $this->barcode_padding, $this->barcode_height - $this->barcode_padding - $barcode_text_h,
-                $bc_w - $this->barcode_padding, $this->barcode_height - $this->barcode_padding, $_fff);
-
-            // set barcode text font params
-            $font_size = $this->barcode_text_size;
-            $font_w = imagefontwidth($font_size);
-            $font_h = imagefontheight($font_size);
-
-            // set text position
-            $txt_w = $font_w * strlen($barcode_string);
-            $pos_center = ceil((($bc_w - $this->barcode_padding) - $txt_w) / 2);
-
-            // set text color
-            $txt_color = imagecolorallocate($img, 0, 255, 255);
-
-            // draw barcod text
-            imagestring($img, $font_size, $pos_center, $this->barcode_height - $barcode_text_h - 2,
-                $barcode_string, $_000);
-        }*/
 
         return $imageString;
     }
