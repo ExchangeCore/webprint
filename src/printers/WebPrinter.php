@@ -10,6 +10,7 @@ class WebPrinter extends Printer implements PrinterInterface
 
     protected $bodyStyle = [
         'position' => 'relative',
+        'font-family' => 'Arial, Helvetica, sans-serif;'
     ];
 
     protected $textStyle = [
@@ -41,7 +42,7 @@ class WebPrinter extends Printer implements PrinterInterface
         </head>
         <body>");
 
-        $this->pushCommand('</body>');
+        $this->pushCommand('<script type="text/javascript">window.print();</script></body>');
 
         return true;
     }
